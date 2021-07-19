@@ -37,7 +37,6 @@ html::-webkit-scrollbar-thumb:active {
 }
 
 /* print stuff */
-
 @page {
 	margin: 1in;
 }
