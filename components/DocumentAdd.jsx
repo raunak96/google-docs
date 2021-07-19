@@ -23,6 +23,7 @@ const DocumentAdd = ({ email }) => {
 			.add({
 				fileName: inputValue,
 				timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+				lastUpdated: firebase.firestore.FieldValue.serverTimestamp(),
 			});
 		closeModal();
 		router.push(`/doc/${doc.id}`);

@@ -36,6 +36,10 @@ const DocumentList = ({ initialDocs, user }) => {
 										.data()
 										.timestamp?.toDate()
 										?.toDateString(),
+									lastUpdated: doc
+										.data()
+										.lastUpdated?.toDate()
+										?.toDateString(),
 								}}
 								user={user}
 							/>

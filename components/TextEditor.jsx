@@ -5,9 +5,9 @@ import { useEffect, useMemo, useState } from "react";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { useDocumentOnce } from "react-firebase-hooks/firestore";
 import db from "../firebase";
+import firebase from "firebase";
 
-// Imported dynamically as this lib only available on browser and depends on windows obj, therefore dynamically loaded it with ssr false i.e
-// this lib not imported during server side rendering
+// Imported dynamically as this lib only available on browser and depends on windows obj, therefore dynamically loaded it with ssr false i.e this lib not imported during server side rendering
 const Editor = dynamic(
 	async () => {
 		const { Editor } = await import("react-draft-wysiwyg");
@@ -18,7 +18,7 @@ const Editor = dynamic(
 	}
 );
 
-const TextEditor = ({ docId, email }) => {
+const TextEditor = ({ docId, email, setIsSaved }) => {
 	const [editorState, setEditorState] = useState(EditorState.createEmpty());
 
 	const [snapshot, isLoading] = useDocumentOnce(
@@ -37,20 +37,24 @@ const TextEditor = ({ docId, email }) => {
 
 	const editDocInDb = useMemo(
 		() =>
-			debounce(editorState => {
-				db.doc(`userDocs/${email}/docs/${docId}`).set(
+			debounce(async editorState => {
+				await db.doc(`userDocs/${email}/docs/${docId}`).set(
 					{
 						editorState: convertToRaw(
 							editorState.getCurrentContent()
 						),
+						lastUpdated:
+							firebase.firestore.FieldValue.serverTimestamp(),
 					},
 					{ merge: true }
 				);
+				setIsSaved("Saved");
 			}, 3000),
 		[]
 	);
 
 	const handleEditorStateChange = editorState => {
+		setIsSaved("Saving ...");
 		setEditorState(editorState);
 		editDocInDb(editorState);
 	};

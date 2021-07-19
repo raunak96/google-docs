@@ -32,6 +32,7 @@ export async function getServerSideProps(context) {
 		id: doc.id,
 		...doc.data(),
 		timestamp: doc.data().timestamp.toDate().toDateString(),
+		lastUpdated: doc.data().lastUpdated.toDate().toDateString(),
 	}));
 	return {
 		props: { session, initialDocs },
