@@ -16,8 +16,8 @@ const Meta = ({ title, keywords, description }) => {
 			<meta name="keywords" content={keywords.join(", ")} />
 			<meta name="description" content={description} />
 			<meta charSet="utf-8" />
-			<meta property="og:title" content="Docsu: A Google docs clone" />
-			<meta property="og:url" content="https://docsu.vercel.app/" />
+			<meta property="og:title" content="Google Docs clone" />
+			<meta property="og:url" content="https://rawn-docs.vercel.app/" />
 			<meta property="og:ttl" content="604800" />
 			<meta
 				name="og:image"
